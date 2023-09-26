@@ -14,9 +14,9 @@ class SampleTest extends TestCase
     public function setUp(): void
     {
         // PDOオブジェクトを生成し、データベースに接続
-        $dsn = "mysql:host=db;dbname=minishop;charset=utf8";
-        $user = "mini";
-        $password = "shop";
+        $dsn = "mysql:host=db;dbname=shop;charset=utf8";
+        $user = "shopping";
+        $password = "site";
         try {
             $this->pdo = new PDO($dsn, $user, $password);
         } catch (Exception $e) {
@@ -47,84 +47,86 @@ class SampleTest extends TestCase
         // 指定URLへ遷移 (Google)
         $this->driver->get('http://php/src/index.php');
 
+        // =========================================ログイン==============================================
+        // ログインリンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[3]->click();
+
+        // ログイン処理を実施
+        $element_input = $this->driver->findElements(WebDriverBy::tagName('input'));
+        $element_input[0]->sendKeys("kobe@denshi.net");
+        $element_input[1]->sendKeys("kobedenshi");
+        $element_input[2]->submit();
+
         // =========================================カート追加1回目==============================================
-        // ラジオボタンをクリック
-        $this->driver->findElement(WebDriverBy::xpath("//input[@type='radio' and @name='genre' and @value='pc']"))->click();
-
-        // inputタグの要素を取得
-        $element_input = $this->driver->findElements(WebDriverBy::tagName('input'));
-
-        // 画面遷移実行
-        $element_input[3]->submit();
-
-        // ジャンル別商品一覧画面の詳細リンクをクリック
-        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
-        $element_a[0]->click();
-
-        // 注文数を「2」にし、「カートに入れる」をクリック
-        $selector = $this->driver->findElement(WebDriverBy::tagName('select'))
-            ->findElement(WebDriverBy::cssSelector("option[value='1']"))
-            ->click();
-
-        // 画面遷移実行
-        $selector->submit();
-
-        // カート画面の「ジャンル選択に戻る」リンクをクリック
-        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
-        $element_a[0]->click();
-
-        // =========================================カート追加2回目==============================================
-        // ラジオボタンをクリック
-        $this->driver->findElement(WebDriverBy::xpath("//input[@type='radio' and @name='genre' and @value='book']"))->click();
-
-        // inputタグの要素を取得
-        $element_input = $this->driver->findElements(WebDriverBy::tagName('input'));
-
-        // 画面遷移実行
-        $element_input[3]->submit();
-
-        // ジャンル別商品一覧画面の詳細リンクをクリック
-        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
-        $element_a[0]->click();
-
-        // 注文数を「2」にし、「カートに入れる」をクリック
-        $selector = $this->driver->findElement(WebDriverBy::tagName('select'))
-            ->findElement(WebDriverBy::cssSelector("option[value='2']"))
-            ->click();
-
-        // 画面遷移実行
-        $selector->submit();
-
-        // カート画面の「ジャンル選択に戻る」リンクをクリック
-        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
-        $element_a[0]->click();
-
-        // =========================================カート追加3回目==============================================
-        // ラジオボタンをクリック
-        $this->driver->findElement(WebDriverBy::xpath("//input[@type='radio' and @name='genre' and @value='music']"))->click();
-
-        // inputタグの要素を取得
-        $element_input = $this->driver->findElements(WebDriverBy::tagName('input'));
-
-        // 画面遷移実行
-        $element_input[3]->submit();
-
-        // ジャンル別商品一覧画面の詳細リンクをクリック
-        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
-        $element_a[0]->click();
-
-        // 注文数を「2」にし、「カートに入れる」をクリック
-        $selector = $this->driver->findElement(WebDriverBy::tagName('select'))
-            ->findElement(WebDriverBy::cssSelector("option[value='3']"))
-            ->click();
-
-        // 画面遷移実行
-        $selector->submit();
-        // =========================================ここからは注文するリンクをクリック==============================================
-
-        // ジャンル別商品一覧画面の詳細リンクをクリック
+        // トップページリンクをクリック
         $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
         $element_a[1]->click();
+
+        // トップページ画面のpcリンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[5]->click();
+
+        // ジャンル別商品一覧画面の詳細リンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[5]->click();
+
+        // 商品詳細画面の注文数を「2」にし、「カートに入れる」をクリック
+        $selector = $this->driver->findElement(WebDriverBy::tagName('select'));
+        $selector->click();
+        $this->driver->getKeyboard()->sendKeys("2");
+        $selector->click();
+        $selector->submit();
+
+        // =========================================カート追加2回目==============================================
+        // トップページリンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[1]->click();
+
+        // トップページ画面のbookリンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[6]->click();
+
+        // ジャンル別商品一覧画面の詳細リンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[5]->click();
+
+        // 商品詳細画面の注文数を「2」にし、「カートに入れる」をクリック
+        $selector = $this->driver->findElement(WebDriverBy::tagName('select'));
+        $selector->click();
+        $this->driver->getKeyboard()->sendKeys("3");
+        $selector->click();
+        $selector->submit();
+
+        // =========================================カート追加3回目==============================================
+        // トップページリンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[1]->click();
+
+        // トップページ画面のbookリンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[7]->click();
+
+        // ジャンル別商品一覧画面の詳細リンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[5]->click();
+
+        // 商品詳細画面の注文数を「2」にし、「カートに入れる」をクリック
+        $selector = $this->driver->findElement(WebDriverBy::tagName('select'));
+        $selector->click();
+        $this->driver->getKeyboard()->sendKeys("4");
+        $selector->click();
+        $selector->submit();
+        // =========================================注文==============================================
+
+        // カート画面の注文リンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[5]->click();
+
+        // 注文確認画面の注文を確定するリンクをクリック
+        $element_a = $this->driver->findElements(WebDriverBy::tagName('a'));
+        $element_a[5]->click();
+
 
         //データベースの値を取得
         $sql = 'select * from orderdetails order by itemId asc';       // SQL文の定義

@@ -49,16 +49,19 @@ insert into items(name, maker, price, image, genre)
 
 # テーブル cart の作成
 drop table if exists cart; 
-create table cart (	
-	ident     int   primary   key,	
-	quantity  int
+create table cart (
+  userId    varchar(50),
+	ident		  int,
+	quantity	int,
+  primary key(userId, ident)
 );
 
 # 注文テーブルordersの作成			
 drop table if exists orders;			
-create table orders (			
-    orderId     int   auto_increment   primary   key,			
-    orderdate   datetime			
+create table orders (
+    orderId     int   auto_increment   primary key,
+    userId      varchar(50),
+    orderdate   datetime
 );			
 			
 # 注文明細テーブルorderdetailsの作成			

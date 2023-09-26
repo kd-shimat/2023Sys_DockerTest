@@ -34,17 +34,25 @@ if (empty($userId) || empty($userName)) {
 
 // ヘッダー・フッターで使用するリンクのFQDN(Fully Qualified Domain Name)作成の準備															
 $http_host = '//' . $_SERVER['SERVER_NAME'];         // 「(http: or https:)//○○○○○○○○」を取得
-$github_name = 'kd-shimat';                          // GitHubのユーザー名を記入
-$shop_id =  mb_substr($_SERVER['REQUEST_URI'], 1, 9); // 「shop-○○-□」を取得
-$shop_path = $shop_id . '-' . $github_name . '/src'; // ソースコードの置き場所(srcフォルダ直下)までのパスを取得 
+$shop_id = mb_strstr($_SERVER['REQUEST_URI'], 'src', true);      // 「shop-○○-□-GitHubのユーザー名を取得」
+//$shop_id =  mb_substr($_SERVER['REQUEST_URI'], 1, 9) . '-'; // 「shop-○○-□-」を取得
+$shop_path = $shop_id . 'src/'; // ソースコードの置き場所(srcフォルダ直下)までのパスを取得 
+
+// $github_name = 'kd-shimat';                          // GitHubのユーザー名を記入
+// $shop_id =  mb_substr($_SERVER['REQUEST_URI'], 1, 9) . '-'; // 「shop-○○-□-」を取得
+// $shop_path = $shop_id . $github_name . '/src/'; // ソースコードの置き場所(srcフォルダ直下)までのパスを取得 
 
 // ヘッダー・フッターで使用するリンクのURLを用意する															
-$index_php = $http_host . '/' . $shop_path . '/index.php';                               // index.phpのURL
-$cart_list_php = $http_host . '/' . $shop_path . '/cart/cart_list.php';                              // カートのURL
-$order_history_php = $http_host . '/' . $shop_path . '/order/order_history.php';                              // 注文履歴のURL
-$login_php = $http_host . '/' . $shop_path . '/user/login.php';                              // ログインのURL
-$logout_php = $http_host . '/' . $shop_path . '/user/logout.php';                              // ログアウトのURL
-$signup_php = $http_host . '/' . $shop_path . '/user/signup.php';                               // ユーザー情報のURL
+$index_php = $http_host . $shop_path . 'index.php';                               // index.phpのURL
+$cart_list_php = $http_host . $shop_path . 'cart/cart_list.php';                              // カートのURL
+$order_history_php = $http_host . $shop_path . 'order/order_history.php';                              // 注文履歴のURL
+$login_php = $http_host . $shop_path . 'user/login.php';                              // ログインのURL
+$logout_php = $http_host . $shop_path . 'user/logout.php';                              // ログアウトのURL
+$signup_php = $http_host . $shop_path . 'user/signup.php';                               // ユーザー情報のURL
 
 // CSSファイルのURLを用意する															
-$shop_css = $http_host . '/' . $shop_path . '/css/shop.css';                              // shop.cssのURL
+$shop_css = $http_host . $shop_path . 'css/shop.css';                              // shop.cssのURL
+
+// var_dump($shop_id);
+// var_dump($shop_path);
+// var_dump($shop_css);
